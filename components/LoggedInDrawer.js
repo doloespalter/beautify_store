@@ -45,10 +45,8 @@ class LoggedInDrawer extends React.Component {
                </View>
                <ScrollView>
                  <View style={styles.navLinks}>
-                     {this.navLink('Home','Home', 'ios-home')}
-                     {this.navLink('MyAppointments','Mis citas', 'ios-calendar')}
-                     {this.navLink('','Centros favoritos', 'ios-heart')}
-                     {this.navLink('Profile','Mi cuenta', 'ios-person')}
+                     {this.navLink('PendingAppointments','Citas pendientes', 'ios-list')}
+                     {this.navLink('MyAppointments','Mi agenda', 'ios-calendar')}
                  </View>
                </ScrollView>
                <View style={styles.logout}>

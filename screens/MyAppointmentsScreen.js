@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { fetchMyAppointments, cancelAppointment } from '../actions/AppointmentActions';
 import {NavigationEvents} from 'react-navigation';
 import LoadingIndicator from '../components/LoadingIndicator';
+import { Ionicons } from '@expo/vector-icons';
 
 class MyAppointmentsScreen extends React.Component {
 

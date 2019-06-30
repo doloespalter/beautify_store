@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, FlatList, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { View, FlatList, StyleSheet, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
 import StoreRow from './StoreRow';
 import moment from "moment";
 import { Ionicons } from '@expo/vector-icons';
@@ -8,6 +8,9 @@ import calendar from "../assets/images/calendar.png";
 import clock from "../assets/images/clock.png";
 import placeholder from "../assets/images/placeholder.png";
 import garbage from "../assets/images/garbage.png";
+
+const WIDTH = Dimensions.get('window').width
+const HEIGHT = Dimensions.get('window').height
 
 const styles = StyleSheet.create({
   container: {
@@ -102,6 +105,26 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#707070',
     lineHeight: 35
+  },
+  confirmationButtons:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 20,
+    marginTop: 10
+  },
+  buttonAccept: {
+    backgroundColor: 'green',
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    marginRight: 10
+  },
+  buttonCancel: {
+    backgroundColor: 'red',
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    marginLeft: 10
   }
 });
 
@@ -146,51 +169,25 @@ class AppointmentListview extends React.Component {
                           </Text>
                         </View>
                       </View>
-                      <View style={styles.storeName}>
-                         <Text>
-                           {item.store? item.store.name : "default store"}
-                         </Text>
-                      </View>
-                      <View style={styles.textContainer}>
-                        <Image
-                        source = {placeholder}
-                        style = {styles.icon}/>
-                        <Text style={styles.secondaryText}>
-                          {item.store? item.store.address : ""}
-                        </Text>
-                      </View>
-                      <View style={styles.confirmationRow}>
-                          {moment(item.timeStart) > now && (item.isConfirmed === 1?
-                            (<Text style={styles.confirmed}>Cita confirmada</Text>)
-                            : (
-                            (<Text style={styles.unconfirmed}>Esperando confirmacion</Text>)
-                          ))}
-                      </View>
                     </TouchableOpacity>
-                    { moment(item.timeStart) > now? (
+                    <View style={styles.confirmationButtons}>
                       <TouchableOpacity
                         onPress={() => onClickCancel(item.id)}
-                        style={styles.buttonContainer}>
-                        <Image
-                        source = {garbage}
-                        style = {styles.icon}/>
-                        <Text style={styles.buttonText}>
-                           Cancelar reserva
-                        </Text>
+                        style={styles.buttonAccept}>
+                        <Ionicons
+                          color={"white"}
+                          name = {"ios-checkmark"}
+                          size = {50}/>
                       </TouchableOpacity>
-                    ): (
                       <TouchableOpacity
-                        onPress={() => {this.props.navigation.navigate('Review', { appointmentId: item.id });}}
-                        style={styles.buttonContainer}>
-                        <Image
-                        source = {garbage}
-                        style = {styles.icon}/>
-                        <Text style={styles.buttonText}>
-                           Dejar reseña
-                        </Text>
+                        onPress={() => onClickCancel(item.id)}
+                        style={styles.buttonCancel}>
+                        <Ionicons
+                          color={"white"}
+                          name = "ios-close"
+                          size = {50}/>
                       </TouchableOpacity>
-                    ) }
-
+                      </View>
                 </View>
               }
               keyExtractor={(item, index) => 'key'+index}

@@ -7,6 +7,8 @@ import SplashScreen from "../screens/SplashScreen";
 import MenuDrawer from '../components/MenuDrawer';
 import ProfileScreen from "../screens/ProfileScreen";
 import MyAppointmentsScreen from "../screens/MyAppointmentsScreen";
+import PendingAppointmentsScreen from "../screens/PendingAppointmentsScreen";
+
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -21,7 +23,10 @@ const DrawerConfig = {
 
 const DrawerNavigator = createDrawerNavigator(
   {
-    AppointmentsScreen: {
+    PendingAppointments: {
+      screen: PendingAppointmentsScreen
+    },
+    MyAppointments: {
       screen: MyAppointmentsScreen
     },
     Home: {
