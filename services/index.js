@@ -53,9 +53,6 @@ class ApiService {
   }
 
   getWithToken(url, userToken) {
-
-    console.log(url);
-    console.log(userToken);
       return this.instance.get(url,{
         headers:{
           'Authorization': `Bearer ${userToken}`,
@@ -63,6 +60,23 @@ class ApiService {
           'Accept' : 'application/json'
         }
       });
+  }
+
+  getWithToken2(url, userToken) {
+    let config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept' : 'application/json',
+        'Authorization': `Bearer ${userToken}`
+      }
+    }
+
+  //  const axios = require("axios");
+    const completeUrl = AppUrls.api.baseUrl + url;
+    console.log(completeUrl);
+    return axios.put(completeUrl, "", config).then((response) => {
+       return response;
+     });
   }
 
   post(url, params) {
@@ -92,11 +106,11 @@ class ApiService {
   }
 
   putWithToken(url, userToken) {
-    return this.instance.put(url, {
+    return this.instance.put(url, {}, {
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${userToken}`,
-            'Accept' : 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userToken}`,
+          'Accept' : 'application/json'
         }
     });
   }

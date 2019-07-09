@@ -6,11 +6,13 @@ import {
   FETCH_MY_APPOINTMENTS_SUCCESS,
   FETCH_MY_APPOINTMENTS_FAILURE,
   CREATE_APPOINTMENT_REQUEST,
-  CREATE_APPOINTMENT_SUCCESS
+  CREATE_APPOINTMENT_SUCCESS,
+  FETCH_PENDING_APPOINTMENTS_SUCCESS,
 } from '../actions/AppointmentActions';
 
 const initialState = {
   myAppointments: [],
+  pendingAppointments: [],
   timings: [],
   loading: false,
   creatingAppointment: false,
@@ -20,27 +22,6 @@ const initialState = {
 
 export default function availableTimingsReducer(state = initialState, action) {
   switch(action.type) {
-    case FETCH_AVAILABLE_TIMINGS_REQUEST:
-    return {
-      ...state,
-      loading: true,
-      error: null
-    };
-
-    case FETCH_AVAILABLE_TIMINGS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        timings: action.payload.availableTimings,
-      };
-
-    case FETCH_AVAILABLE_TIMINGS_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload.error,
-        timings: [],
-      };
     case FETCH_MY_APPOINTMENTS_REQUEST:
       return {
         ...state,
@@ -62,16 +43,12 @@ export default function availableTimingsReducer(state = initialState, action) {
           error: action.payload.error,
           myAppointments: [],
         };
-    case CREATE_APPOINTMENT_REQUEST:
-        return {
-          ...state,
-          creatingAppointment: true,
-        };
-    case CREATE_APPOINTMENT_SUCCESS:
-        return {
-          ...state,
-          creatingAppointment: false,
-        };
+    case FETCH_PENDING_APPOINTMENTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        pendingAppointments: action.payload.appointments,
+      };
 
     default:
       return state;

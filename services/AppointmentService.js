@@ -16,26 +16,16 @@ class AppointmentService {
     })
   }
 
-
-  static createAppointment(idStore, body,token) {
-    let url = buildPathWithParams(AppUrls.api.createAppointment, { idStore });
-    return API.postWithToken(url, body, token).then((response) => {
-       return response.data;
-    })
-  }
-
-  static cancelAppointment(idAppointment, token) {
-    let url = buildPathWithParams(AppUrls.api.cancelAppointment, { idAppointment });
-    return API.putWithAuthenticationHeader(url, {}, token).then((response) => {
-       return response.data;
-    })
-  }
-
   static fetchMyAppointments(storeId, token) {
     let url = buildPathWithParams(AppUrls.api.appointments, { storeId });
-
     return API.getWithToken(url, token).then((response) => {
-      console.log(response.data);
+       return response.data;
+    })
+  }
+
+  static fetchPendingAppointments(storeId, token) {
+    let url = buildPathWithParams(AppUrls.api.appointments, { storeId });
+    return API.getWithToken(url, token).then((response) => {
        return response.data;
     })
   }
@@ -43,6 +33,22 @@ class AppointmentService {
   static fetchAppointmentDetails(idAppointment, token) {
     let url = buildPathWithParams(AppUrls.api.appointmentDetails, { idAppointment });
     return API.getWithToken(url, token).then((response) => {
+       return response.data;
+    })
+  }
+
+  static confirmAppointment(storeId, appointmentId, token) {
+    let url = buildPathWithParams(AppUrls.api.confirmAppointment, { storeId, appointmentId });
+    return API.putWithToken(url, token).then((response) => {
+       return response.data;
+    })
+  }
+
+  static cancelAppointment(storeId, appointmentId, token) {
+    console.log("cancel");
+    let url = buildPathWithParams(AppUrls.api.cancelAppointment, { storeId, appointmentId });
+    console.log(url);
+    return API.putWithToken(url, token).then((response) => {
        return response.data;
     })
   }

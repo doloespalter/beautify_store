@@ -52,7 +52,6 @@ export const login = (username, password) => dispatch => {
         const token = response.token;
         const storeId = response.user.storeWorkingId+"";
         AsyncStorage.setItem('userToken', token);
-        console.log(token);
         AsyncStorage.setItem('storeId', storeId);
         dispatch(saveToken(token));
         dispatch(saveStoreId(storeId));

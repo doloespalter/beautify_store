@@ -8,7 +8,11 @@ import calendar from "../assets/images/calendar.png";
 import clock from "../assets/images/clock.png";
 import placeholder from "../assets/images/placeholder.png";
 import garbage from "../assets/images/garbage.png";
+import { connect } from 'react-redux';
 import avatar from "../assets/images/avatar.png";
+import {Alert} from 'react-native';
+import { fetchPendingAppointments } from '../actions/AppointmentActions';
+import AppointmentService from "../services/AppointmentService"
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
@@ -138,15 +142,60 @@ const styles = StyleSheet.create({
 
 class AppointmentListview extends React.Component {
 
-
   onClickDetails = (idAppointment) => {
     this.props.navigation.navigate('AppointmentDetails', { idAppointment: idAppointment });
   };
 
+  onClickConfirm  = (appointmentId) => {
+    Alert.alert(
+      'Estas seguro que deseas confirmar esta cita?',
+      'Desea confirmar esta cita',
+      [
+        {text: 'Confirmar', onPress: () => this.confirmAppointment(appointmentId)},
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  }
+
+  onClickCancel  = (appointmentId) => {
+    Alert.alert(
+      'Estas seguro que deseas rechazar esta cita?',
+      'Desea confirmar esta cita',
+      [
+        {text: 'Rechazar', onPress: () => this.cancelAppointment(appointmentId)},
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  }
+
+  confirmAppointment = (appointmentId) => {
+    const {token, storeId, updateData} = this.props;
+
+    AppointmentService.confirmAppointment(storeId, appointmentId, token).then((response) => {
+  //     fetchPendingAppointments(storeId, token);
+        updateData();
+    })
+  }
+
+  cancelAppointment = (appointmentId) => {
+    const {token, storeId, updateData} = this.props;
+
+    AppointmentService.cancelAppointment(storeId, appointmentId, token).then((response) => {
+        updateData();
+    })
+  }
+
   render(){
     const {itemList, onClickCancel} = this.props;
     const now = moment();
-
     return(
     <View style={styles.container}>
         <FlatList
@@ -183,14 +232,37 @@ class AppointmentListview extends React.Component {
                           source = {avatar}
                           style = {styles.icon}/>
                           <Text style={styles.secondaryText}>
-                            {item.employee? item.employee.name : ""} min
+                            {item.employee? item.employee.name : ""}
                           </Text>
                         </View>
                       </View>
+                      {item.isConfirmed === 0 ? (
+                        <View style={styles.extraInfo}>
+                          <View style={styles.textContainer}>
+                            <Image
+                            source = {avatar}
+                            style = {styles.icon}/>
+                            <Text style={styles.secondaryText}>
+                             SIN CONFIRMAR
+                            </Text>
+                          </View>
+                        </View>
+                      ) : (
+                        <View style={styles.extraInfo}>
+                          <View style={styles.textContainer}>
+                            <Image
+                            source = {avatar}
+                            style = {styles.icon}/>
+                            <Text style={styles.secondaryText}>
+                            CONFIRMADO
+                            </Text>
+                          </View>
+                        </View>
+                      )}
                     </TouchableOpacity>
                     <View style={styles.confirmationButtons}>
                       <TouchableOpacity
-                        onPress={() => onClickCancel(item.id)}
+                        onPress={() => this.onClickConfirm(item.id)}
                         style={styles.buttonAccept}>
                         <Ionicons
                           color={"white"}
@@ -198,7 +270,7 @@ class AppointmentListview extends React.Component {
                           size = {50}/>
                       </TouchableOpacity>
                       <TouchableOpacity
-                        onPress={() => onClickCancel(item.id)}
+                        onPress={() => this.onClickCancel(item.id)}
                         style={styles.buttonCancel}>
                         <Ionicons
                           color={"white"}
@@ -218,8 +290,17 @@ class AppointmentListview extends React.Component {
 
 AppointmentListview.propTypes = {
   itemList:PropTypes.array.isRequired,
-  onClickCancel: PropTypes.func.isRequired
+  updateData: PropTypes.func.isRequired,
 }
 
+const mapStateToProps = state => ({
+    token: state.auth.token,
+    storeId: state.auth.storeId,
+});
 
-export default AppointmentListview;
+
+const mapDispatchToProps = dispatch => ({
+    fetchPendingAppointments: (storeId, token) => dispatch(fetchPendingAppointments(storeId, token)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppointmentListview);

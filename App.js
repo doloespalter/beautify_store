@@ -9,6 +9,7 @@ import {
   Notifications,
 } from 'expo';
 import store from './store';
+import Reactotron from 'reactotron-react-native'
 
 
 import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
@@ -19,6 +20,13 @@ export default class App extends React.Component {
 
   componentDidMount(){
     this._notificationSubscription = Notifications.addListener(this._handleNotification);
+
+    Reactotron
+      .configure() // controls connection & communication settings
+      .useReactNative() // add all built-in react native plugins
+      .connect() // let's connect!
+
+      Reactotron.log('hello rendering world')
   }
 
   _handleNotification = (notification) => {

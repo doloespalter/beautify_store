@@ -8,6 +8,7 @@ import calendar from "../assets/images/calendar.png";
 import clock from "../assets/images/clock.png";
 import placeholder from "../assets/images/placeholder.png";
 import garbage from "../assets/images/garbage.png";
+import avatar from "../assets/images/avatar.png";
 
 const WIDTH = Dimensions.get('window').width
 const HEIGHT = Dimensions.get('window').height
@@ -169,25 +170,17 @@ class AppointmentListview extends React.Component {
                           </Text>
                         </View>
                       </View>
-                    </TouchableOpacity>
-                    <View style={styles.confirmationButtons}>
-                      <TouchableOpacity
-                        onPress={() => onClickCancel(item.id)}
-                        style={styles.buttonAccept}>
-                        <Ionicons
-                          color={"white"}
-                          name = {"ios-checkmark"}
-                          size = {50}/>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => onClickCancel(item.id)}
-                        style={styles.buttonCancel}>
-                        <Ionicons
-                          color={"white"}
-                          name = "ios-close"
-                          size = {50}/>
-                      </TouchableOpacity>
+                      <View style={styles.extraInfo}>
+                        <View style={styles.textContainer}>
+                          <Image
+                          source = {avatar}
+                          style = {styles.icon}/>
+                          <Text style={styles.secondaryText}>
+                            {item.employee? item.employee.name : ""}
+                          </Text>
+                        </View>
                       </View>
+                    </TouchableOpacity>
                 </View>
               }
               keyExtractor={(item, index) => 'key'+index}

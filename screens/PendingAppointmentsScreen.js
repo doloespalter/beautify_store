@@ -9,36 +9,24 @@ import StarRating from '../components/StarRating';
 import AppointmentListView from '../components/PendingAppointmentsListView';
 import {Alert} from 'react-native';
 import { connect } from 'react-redux';
-import { fetchMyAppointments, cancelAppointment } from '../actions/AppointmentActions';
+import { fetchPendingAppointments } from '../actions/AppointmentActions';
 import {NavigationEvents} from 'react-navigation';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { Ionicons } from '@expo/vector-icons';
 
-class MyAppointmentsScreen extends React.Component {
+class PendingAppointmentsScreen extends React.Component {
 
   componentDidMount(){
-  //  this.updateData();
-    console.log("en comp");
-  const { fetchMyAppointments , token, storeId } = this.props;
-  fetchMyAppointments(storeId, token);
+    this.updateData();
   }
 
   updateData = () => {
-    //console.log("en metood");
-  //  const { fetchMyAppointments , token, storeId } = this.props;
-  //  fetchMyAppointments(storeId, token);
-  }
-
-  onCancelAppointment = (appointmentId) => {
-    const {token, cancelAppointment} = this.props;
-
-    cancelAppointment(appointmentId, token).then((response) => {
-       Alert.alert(response);
-    })
+     const { fetchPendingAppointments , token, storeId } = this.props;
+    fetchPendingAppointments(storeId, token);
   }
 
   render() {
-    const { myAppointments, navigation, loading } = this.props;
+    const { pendingAppointments, navigation, loading } = this.props;
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={() => this.updateData()} />
@@ -54,9 +42,9 @@ class MyAppointmentsScreen extends React.Component {
               </Text>
             </View>
             <AppointmentListView
-              itemList={myAppointments}
+              itemList={pendingAppointments}
               navigation={navigation}
-              onClickCancel={this.onCancelAppointment}
+              updateData={this.updateData}
             />
           </View>
         )
@@ -129,19 +117,18 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = state => ({
-    myAppointments: state.appointment.myAppointments,
+    pendingAppointments: state.appointment.pendingAppointments,
     token: state.auth.token,
     loading: state.appointment.loading,
     storeId: state.auth.storeId
-
 });
 
 
 const mapDispatchToProps = dispatch => ({
-    fetchMyAppointments: (storeId, token) => dispatch(fetchMyAppointments(storeId, token)),
+    fetchPendingAppointments: (storeId, token) => dispatch(fetchPendingAppointments(storeId, token)),
     cancelAppointment:(idStore, token) => dispatch(cancelAppointment(idStore, token))
 });
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAppointmentsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(PendingAppointmentsScreen);

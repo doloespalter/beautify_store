@@ -4,6 +4,9 @@ export default {
     // Login
     login: '/users/login',
     // MyAppointments
-    appointments: '/api/stores/:storeId/appointments/toAttend'
+    appointments: '/api/stores/:storeId/appointments/toAttend',
+    appointments: '/api/stores/:storeId/appointments/toConfirm',
+    confirmAppointment: '/api/stores/:storeId/appointments/confirm/:appointmentId',
+    cancelAppointment: '/api/stores/:storeId/appointments/cancel/:appointmentId'
   }
 };

@@ -5,6 +5,7 @@ export const FETCH_MY_APPOINTMENTS_SUCCESS = 'FETCH_MY_APPOINTMENTS_SUCCESS';
 export const FETCH_MY_APPOINTMENTS_FAILURE = 'FETCH_MY_APPOINTMENTS_FAILURE';
 export const CANCEL_APPOINTMENT_REQUEST   = 'CANCEL_APPOINTMENT_REQUEST';
 export const CANCEL_APPOINTMENT_SUCCESS = 'CANCEL_APPOINTMENT_SUCCESS';
+export const FETCH_PENDING_APPOINTMENTS_SUCCESS = 'FETCH_PENDING_APPOINTMENTS_SUCCESS';
 
 
 export const fetchMyAppointmentsRequest = () => ({
@@ -13,6 +14,11 @@ export const fetchMyAppointmentsRequest = () => ({
 
 export const fetchMyAppointmentsSuccess = appointments => ({
   type: FETCH_MY_APPOINTMENTS_SUCCESS,
+  payload: { appointments }
+});
+
+export const fetchPendingAppointmentsSuccess = appointments => ({
+  type: FETCH_PENDING_APPOINTMENTS_SUCCESS,
   payload: { appointments }
 });
 
@@ -38,6 +44,13 @@ export const fetchMyAppointments = (storeId, token) => dispatch => {
   )
 }
 
+export const fetchPendingAppointments = (storeId, token) => dispatch => {
+  dispatch(fetchMyAppointmentsRequest());
+  return AppointmentService.fetchPendingAppointments(storeId, token).then((response) =>{
+      dispatch(fetchPendingAppointmentsSuccess(response))
+    }
+  )
+}
 
 export const createAppointment = (idStore, body, token) => dispatch => {
   dispatch(createAppointmentRequest());
