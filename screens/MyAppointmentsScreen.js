@@ -13,20 +13,26 @@ import { fetchMyAppointments, cancelAppointment } from '../actions/AppointmentAc
 import {NavigationEvents} from 'react-navigation';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { Ionicons } from '@expo/vector-icons';
+import EventCalendar from 'react-native-events-calendar'
+import moment from 'moment'
+import CalendarStrip from 'react-native-calendar-strip';
+
+
+const HEIGHT = Dimensions.get('window').height
+
 
 class MyAppointmentsScreen extends React.Component {
 
   componentDidMount(){
-  //  this.updateData();
-    console.log("en comp");
-  const { fetchMyAppointments , token, storeId } = this.props;
-  fetchMyAppointments(storeId, token);
+    this.updateData();
+
   }
 
   updateData = () => {
-    //console.log("en metood");
-  //  const { fetchMyAppointments , token, storeId } = this.props;
-  //  fetchMyAppointments(storeId, token);
+    console.log("en comp");
+    const { fetchMyAppointments , token, storeId } = this.props;
+    const date =  moment().format('YYYY-MM-DD');
+    fetchMyAppointments(storeId, date, token);
   }
 
   onCancelAppointment = (appointmentId) => {
@@ -37,28 +43,68 @@ class MyAppointmentsScreen extends React.Component {
     })
   }
 
+  eventTapped = (data) => {
+    console.log(data);
+  };
+
+  dateChanged= () => {
+    console.log("date change");
+  };
+
+  onDateSelected = (value) => {
+    var formattedDate = value.format("YYYY-MM-DD");
+    const { fetchMyAppointments , token, storeId } = this.props;
+    fetchMyAppointments(storeId, formattedDate, token);
+  }
+
   render() {
-    const { myAppointments, navigation, loading } = this.props;
+
+      const { myAppointments, navigation, loading } = this.props;
+      const formattedArray = [];
+      if(myAppointments && myAppointments.length){
+      myAppointments.map(item => {
+        var app = {}
+        app.start = moment(item.timeStart).format('YYYY-MM-DD HH:mm')
+        console.log(moment(item.timeStart).format('YYYY-MM-DD HH:mm'));
+        app.end = moment(item.timeEnd).format('YYYY/MM/DD HH:mm')
+        app.title = 'Dolores Espalter'
+        app.summary = item.service.name
+        formattedArray.push(app)
+      });
+
+    }
+
+    let {width} = Dimensions.get('window');
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={() => this.updateData()} />
         <MenuButton navigation={navigation}/>
-
+        <View style={styles.topContainer}>
         { loading ?
          <LoadingIndicator /> :
         (
-          <View style={styles.mainClass}>
-            <View style={styles.headingContainer}>
-            </View>
-            <AppointmentListView
-              itemList={myAppointments}
-              navigation={navigation}
-              onClickCancel={this.onCancelAppointment}
+          <View style={styles.agenda}>
+          <EventCalendar
+            eventTapped={this.eventTapped.bind(this)}
+            dateChanged={() => this.dateChanged()}
+            events={formattedArray}
+            width={width}
+            initDate={moment().add(1,'day')}
+            headerStyle={{height:0, backgroundColor: 'red'}}
+          />
+          </View>
+          )
+        }
+          <View style={styles.dateRectangle}>
+            <CalendarStrip
+            style={{height:100, paddingTop: 20}}
+            calendarAnimation={{type: 'sequence', duration: 30}}
+            daySelectionAnimation={{type: 'border', duration: 200, borderWidth: 1, backgroundHighlightColor: 'red'}}
+            onDateSelected={(date) => this.onDateSelected(date)}
+            startingDate={moment().add(1,'day')}
             />
           </View>
-        )
-       }
-
+        </View>
       </View>
     );
   }
@@ -70,7 +116,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8E8E8'
   },
   topContainer: {
-    marginTop: 80,
+    marginTop: 70,
+    height: HEIGHT - 80
+  },
+  agenda:{
+    flex: 1,
+    marginTop: 50,
   },
   backgroundImage:{
     backgroundColor: '#FFFFB2',
@@ -119,8 +170,18 @@ const styles = StyleSheet.create({
     },
     mainClass: {
       flex: 1,
-      marginTop: 80
-    }
+      marginTop: 130
+    },
+  dateRectangle:{
+    position: 'absolute',
+    top: 0, flex: 1,
+    alignSelf: 'stretch',
+    right: 0,
+    left: 0,
+    height: 100,
+    backgroundColor: '#F2F2F4',
+    zIndex: 200
+  },
 });
 
 
@@ -135,8 +196,8 @@ const mapStateToProps = state => ({
 
 
 const mapDispatchToProps = dispatch => ({
-    fetchMyAppointments: (storeId, token) => dispatch(fetchMyAppointments(storeId, token)),
-    cancelAppointment:(idStore, token) => dispatch(cancelAppointment(idStore, token))
+    fetchMyAppointments: (storeId, date, token) => dispatch(fetchMyAppointments(storeId, date, token)),
+    cancelAppointment:(idStore, token) => dispatch(cancelAppointment(idStore,date, token))
 });
 
 

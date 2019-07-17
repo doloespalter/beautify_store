@@ -23,11 +23,11 @@ const DrawerConfig = {
 
 const DrawerNavigator = createDrawerNavigator(
   {
-    PendingAppointments: {
-      screen: PendingAppointmentsScreen
-    },
     MyAppointments: {
       screen: MyAppointmentsScreen
+    },
+    PendingAppointments: {
+      screen: PendingAppointmentsScreen
     },
     Home: {
       screen: HomeScreen

@@ -36,9 +36,9 @@ export const cancelAppointmentRequest = () => ({
   type: CANCEL_APPOINTMENT_REQUEST,
 });
 
-export const fetchMyAppointments = (storeId, token) => dispatch => {
+export const fetchMyAppointments = (storeId, date, token) => dispatch => {
   dispatch(fetchMyAppointmentsRequest());
-  return AppointmentService.fetchMyAppointments(storeId, token).then((response) =>{
+  return AppointmentService.fetchMyAppointments(storeId, date, token).then((response) =>{
       dispatch(fetchMyAppointmentsSuccess(response))
     }
   )

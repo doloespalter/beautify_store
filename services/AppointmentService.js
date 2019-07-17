@@ -16,15 +16,15 @@ class AppointmentService {
     })
   }
 
-  static fetchMyAppointments(storeId, token) {
-    let url = buildPathWithParams(AppUrls.api.appointments, { storeId });
+  static fetchMyAppointments(storeId, date, token) {
+    let url = buildPathWithParams(AppUrls.api.appointments, { storeId, date });
     return API.getWithToken(url, token).then((response) => {
        return response.data;
     })
   }
 
   static fetchPendingAppointments(storeId, token) {
-    let url = buildPathWithParams(AppUrls.api.appointments, { storeId });
+    let url = buildPathWithParams(AppUrls.api.confirmAppointments, { storeId });
     return API.getWithToken(url, token).then((response) => {
        return response.data;
     })
