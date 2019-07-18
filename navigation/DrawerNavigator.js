@@ -8,6 +8,8 @@ import MenuDrawer from '../components/MenuDrawer';
 import ProfileScreen from "../screens/ProfileScreen";
 import MyAppointmentsScreen from "../screens/MyAppointmentsScreen";
 import PendingAppointmentsScreen from "../screens/PendingAppointmentsScreen";
+import ChatScreen from "../screens/ChatScreen";
+import ChatListScreen from "../screens/ChatListScreen";
 
 
 const WIDTH = Dimensions.get('window').width;
@@ -38,7 +40,12 @@ const DrawerNavigator = createDrawerNavigator(
     SplashScreen: {
       screen: LoginScreen
     },
-
+    Chat: {
+      screen: ChatScreen
+    },
+    ChatList: {
+      screen: ChatListScreen
+    }
   },
   DrawerConfig
 );
