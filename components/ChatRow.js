@@ -5,6 +5,7 @@ import place from "../assets/images/placeholder.png";
 import StarRating from './StarRating';
 import AppUrls from '../config/AppUrls';
 import clientlogo from "../assets/images/clientlogo.png";
+import moment from 'moment';
 
 type Props = {
   name : string,
@@ -18,13 +19,13 @@ class ChatRow extends React.Component {
     let date = this.props.date;
     return(
         <View style={styles.container}>
-              <Text style={styles.name}>
-                  {name}
-              </Text>
-              <Text style={styles.date}>
-                  {date}
-              </Text>
-          </View>
+            <Text style={styles.name}>
+                {name}
+            </Text>
+            <Text style={styles.date}>
+                {moment(date).format('YYYY/MM/DD')}
+            </Text>
+        </View>
     );
   }
 }

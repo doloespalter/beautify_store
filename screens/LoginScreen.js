@@ -59,7 +59,7 @@ class LoginScreen extends React.Component{
       login(this.state.email, this.state.password).then(() => {
             if(this.props.token !== undefined && this.props.token !== null){
           //    this.props.fetchUserDetails(this.props.token);
-            //  this.props.sendNotificationToken(this.props.token);
+              this.props.sendNotificationToken(this.props.token);
               this.setState({ loading: false});
               this.props.navigation.navigate('Home');
             } else {

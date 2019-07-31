@@ -5,6 +5,7 @@ import StoreDetailsReducer from "./StoreDetailsReducer";
 import ServiceReducer from "./ServiceReducer";
 import AppointmentReducer from "./AppointmentReducer";
 import UserReducer from "./UserReducer";
+import ChatReducer from "./ChatReducer";
 
 export default combineReducers({
     auth: AuthReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     storeDetails: StoreDetailsReducer,
     service:  ServiceReducer,
     appointment: AppointmentReducer,
-    user: UserReducer
+    user: UserReducer,
+    chat: ChatReducer
 })

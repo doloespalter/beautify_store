@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Beautify",
-    "slug": "beautify-app",
+    "name": "Beautify-App",
+    "slug": "beautify-store",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [

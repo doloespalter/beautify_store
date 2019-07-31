@@ -9,58 +9,54 @@ import {
   TouchableHighlight
 } from 'react-native';
 import ChatRow from '../components/ChatRow';
+import { fetchAllChats } from '../actions/ChatActions';
+import { connect } from 'react-redux';
+import LoadingIndicator from '../components/LoadingIndicator';
+import { NavigationEvents } from 'react-navigation';
 
-export default class ChatScreen extends React.Component {
-  state = {
-    messages: [],
-  }
+
+
+class ChatScreen extends React.Component {
 
   componentWillMount() {
-    this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: 'Hello developer',
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any',
-          },
-        },
-      ],
-    })
+    this.updateData();
   }
 
-  goToNextScreen = () => {
-    this.props.navigation.navigate('Chat');
+  updateData = () => {
+    const { fetchAllChats, token } = this.props;
+    fetchAllChats(token);
+  }
+
+  goToChatScreen = (id) => {
+    this.props.navigation.navigate('Chat', {chatterId: id});
   }
 
   render() {
-    hasChats = true;
-    itemList= [{id:'44', name: 'Dolores', date: '17/07/2019'},{id:'45', name: 'Maria', date: '15/07/2019'}];
+    const { loading, chats } = this.props;
     return (
       <View style={styles.container}>
+      <NavigationEvents onDidFocus={() => this.updateData()} />
       <MenuButton
         navigation={this.props.navigation}
       />
       <View style={styles.mainView}>
       {
-        hasChats ?
-        <FlatList
-               data={itemList}
-               keyExtractor={(item, index) => (item.id).toString()}
-               renderItem={({ item }) =>
-               <TouchableHighlight onPress={() => this.goToNextScreen(item.id)}>
-                 <ChatRow
-                    name={item.name}
-                    date={item.date}
-                  />
-                </TouchableHighlight>
-              }
-            />
-        :
-        <Text>No tienes mensajes.</Text>
+        loading ?
+          <LoadingIndicator />
+        : (
+          <FlatList
+             data={chats.map(c => ({ id: c.sender.id, name: c.sender.name, date: c.messages[0].createdAt}))}
+             keyExtractor={(item, index) => (item.id).toString()}
+             renderItem={({ item }) =>
+             <TouchableHighlight onPress={() => this.goToChatScreen(item.id)}>
+               <ChatRow
+                  name={item.name}
+                  date={item.date}
+                />
+              </TouchableHighlight>
+            }
+          />
+        )
       }
       </View>
       </View>
@@ -77,3 +73,17 @@ const styles = StyleSheet.create({
     marginTop: 80,
   }
 });
+
+
+const mapStateToProps = state => ({
+    chats: state.chat.chats,
+    loading: state.chat.loading,
+    token: state.auth.token,
+});
+
+
+const mapDispatchToProps = dispatch => ({
+    fetchAllChats: (token) => dispatch(fetchAllChats(token))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);
