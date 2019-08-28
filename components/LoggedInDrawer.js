@@ -40,8 +40,7 @@ class LoggedInDrawer extends React.Component {
     return(
              <View style={styles.container}>
                <View style={styles.userInfo}>
-                   <Image style={styles.img} source={require('../assets/images/profilepic.jpg')} />
-                   <Text style={styles.name}> Bienvenido </Text>
+                   <Image style={styles.img} source={require('../assets/images/login-admin.png')} />
                </View>
                <ScrollView>
                  <View style={styles.navLinks}>
@@ -88,11 +87,10 @@ const styles = StyleSheet.create({
   img:{
     height: 130,
     width: 130,
-    borderRadius: 65,
-    marginTop: 40,
+    marginTop: 100,
   },
   userInfo:{
-    height: 200,
+    height: 250,
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: 'white',

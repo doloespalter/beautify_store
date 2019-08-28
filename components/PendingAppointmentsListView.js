@@ -137,6 +137,16 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     marginLeft: 10
+  },
+  emptyMessage:{
+    fontFamily: 'open-sans',
+    marginLeft: 10,
+    fontSize: 15
+  },
+  emptyMessageContainer:{
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 250,
   }
 });
 
@@ -198,6 +208,7 @@ class AppointmentListview extends React.Component {
     const now = moment();
     return(
     <View style={styles.container}>
+    {(itemList && itemList.length) ? (
         <FlatList
               data={itemList}
               renderItem={({ item }) =>
@@ -282,7 +293,11 @@ class AppointmentListview extends React.Component {
               }
               keyExtractor={(item, index) => 'key'+index}
             />
-
+          ) : (
+            <View style={styles.emptyMessageContainer}>
+              <Text style={styles.emptyMessage}>No hay solicitudes</Text>
+            </View>
+          )}
     </View>
   );
 }

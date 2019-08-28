@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { getUserToken, getStoreIdAction } from '../actions/AuthActions';
 import { fetchUserDetails } from '../actions/UserActions';
 import { AsyncStorage } from 'react-native';
-import headerLogo from "../assets/images/header-logo.png";
+import { Font } from 'expo';
+import headerLogo from "../assets/images/logo-splash.png";
 import { Permissions, Notifications } from 'expo';
 
 
@@ -13,6 +14,11 @@ class SplashScreen extends React.Component {
   async componentDidMount() {
     await this.registerForPushNotificationsAsync();
     await this.props.getStoreIdAction();
+    await Font.loadAsync({
+      'open-sans': require('../assets/fonts/OpenSans.ttf'),
+      'open-sans-bold': require('../assets/fonts/OpenSans-Bold.otf'),
+      'open-sans-light': require('../assets/fonts/OpenSans-Light.ttf'),
+    });
     this._bootstrapAsync();
   }
 
@@ -36,7 +42,6 @@ class SplashScreen extends React.Component {
      const token = await AsyncStorage.getItem('notificationToken');
 
      if(!token){
-
        const { status: existingStatus } = await Permissions.getAsync(
          Permissions.NOTIFICATIONS
        );

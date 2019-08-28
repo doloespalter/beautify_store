@@ -108,6 +108,7 @@ export const changePassword = (info) => dispatch => {
 export const sendNotificationToken = (userToken) => dispatch => {
  AsyncStorage.getItem('notificationToken')
         .then((data) => {
+          console.log(data);
           UserService.sendNotificationToken(data, userToken);
         })
         .catch((err) => {

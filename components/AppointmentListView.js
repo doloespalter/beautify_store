@@ -142,49 +142,54 @@ class AppointmentListview extends React.Component {
 
     return(
     <View style={styles.container}>
-        <FlatList
-              data={itemList}
-              renderItem={({ item }) =>
-                <View style={styles.rowContainer} key={item.id}>
-                    <TouchableOpacity
-                      onPress={() => this.onClickDetails(item.id)}
-                      style={styles.mainContainer}>
-                      <Text style={styles.serviceName}>
-                        {item.service? item.service.name : "default"}
-                      </Text>
-                      <View style={styles.dateInfo}>
-                        <View style={styles.textContainer}>
-                          <Image
-                          source = {clock}
-                          style = {styles.icon}/>
-                          <Text style={styles.secondaryText}>
-                            {item.service? item.service.duration : "default"} min
-                          </Text>
+        {(itemList && itemList.length) ? (
+          <FlatList
+                data={itemList}
+                renderItem={({ item }) =>
+                  <View style={styles.rowContainer} key={item.id}>
+                      <TouchableOpacity
+                        onPress={() => this.onClickDetails(item.id)}
+                        style={styles.mainContainer}>
+                        <Text style={styles.serviceName}>
+                          {item.service? item.service.name : "default"}
+                        </Text>
+                        <View style={styles.dateInfo}>
+                          <View style={styles.textContainer}>
+                            <Image
+                            source = {clock}
+                            style = {styles.icon}/>
+                            <Text style={styles.secondaryText}>
+                              {item.service? item.service.duration : "default"} min
+                            </Text>
+                          </View>
+                          <View style={styles.textContainer}>
+                            <Image
+                            source = {calendar}
+                            style = {styles.icon}/>
+                            <Text style={styles.secondaryText}>
+                               { moment(item.timeStart).format("YYYY/MM/DD HH:mm") }
+                            </Text>
+                          </View>
                         </View>
-                        <View style={styles.textContainer}>
-                          <Image
-                          source = {calendar}
-                          style = {styles.icon}/>
-                          <Text style={styles.secondaryText}>
-                             { moment(item.timeStart).format("YYYY/MM/DD HH:mm") }
-                          </Text>
+                        <View style={styles.extraInfo}>
+                          <View style={styles.textContainer}>
+                            <Image
+                            source = {avatar}
+                            style = {styles.icon}/>
+                            <Text style={styles.secondaryText}>
+                              {item.employee? item.employee.name : ""}
+                            </Text>
+                          </View>
                         </View>
-                      </View>
-                      <View style={styles.extraInfo}>
-                        <View style={styles.textContainer}>
-                          <Image
-                          source = {avatar}
-                          style = {styles.icon}/>
-                          <Text style={styles.secondaryText}>
-                            {item.employee? item.employee.name : ""}
-                          </Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                </View>
-              }
-              keyExtractor={(item, index) => 'key'+index}
-            />
+                      </TouchableOpacity>
+                  </View>
+                }
+                keyExtractor={(item, index) => 'key'+index}
+              />
+        ) : (
+          <Text style={styles.emptyMessage}>No hay solicitudes</Text>
+        )}
+
 
     </View>
   );

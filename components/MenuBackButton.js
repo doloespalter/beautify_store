@@ -49,10 +49,10 @@ const styles = StyleSheet.create({
   },
   logo: {
     position: "absolute",
-    top: 40,
+    top: 43,
     left: 140,
-    width: 120,
-    height: 25,
+    width: 100,
+    height: 30,
   },
   menuIcon: {
     position: "absolute",

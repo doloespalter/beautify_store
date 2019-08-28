@@ -4,7 +4,6 @@ import placeholder from "../assets/images/image-placeholder.png";
 import place from "../assets/images/placeholder.png";
 import StarRating from './StarRating';
 import AppUrls from '../config/AppUrls';
-import clientlogo from "../assets/images/clientlogo.png";
 
 type Props = {
   title : string,

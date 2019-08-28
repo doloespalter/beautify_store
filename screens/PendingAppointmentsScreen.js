@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { View, StyleSheet, Dimensions, StatusBar, Image, Text} from 'react-native';
 import MenuButton from '../components/MenuButton';
-import ImageGallery from '../components/ImageGallery';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import placeholder from "../assets/images/image-placeholder.png";
-import clientlogo from "../assets/images/clientlogo.png";
-import StarRating from '../components/StarRating';
 import AppointmentListView from '../components/PendingAppointmentsListView';
 import {Alert} from 'react-native';
 import { connect } from 'react-redux';
@@ -68,10 +65,15 @@ const styles = StyleSheet.create({
     height: 120,
   },
   heading: {
-    color: '#707070',
+    /*color: '#707070',
     fontSize: 14,
     marginLeft: 13,
-    marginTop: 10
+    marginTop: 10*/
+    fontSize: 17,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    marginTop: 15,
+    marginBottom: 5
   },
   infoContainer:{
     flexDirection: 'row',

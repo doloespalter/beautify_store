@@ -8,6 +8,7 @@ export default {
     confirmAppointments: '/api/stores/:storeId/appointments/toConfirm',
     confirmAppointment: '/api/stores/:storeId/appointments/confirm/:appointmentId',
     cancelAppointment: '/api/stores/:storeId/appointments/cancel/:appointmentId',
+    notificationToken: '/api/users/notificationToken',
     //Chat
     getMessages: '/api/messages/:chatterId',
     messages: '/api/messages/'

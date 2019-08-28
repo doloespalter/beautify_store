@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Image, KeyboardAvoidingView, StyleSheet, View, Dimensions, TextInput, ImageBackground , TouchableOpacity, Text} from "react-native";
 import { createStackNavigator  } from 'react-navigation';
-import imageLogo from "../assets/images/logo.png";
+import imageLogo from "../assets/images/login-logo.png";
 import bkg from "../assets/texture-bkg.png";
 import strings from "../constants/Strings";
 import colors from "../constants/Colors";
@@ -61,7 +61,7 @@ class LoginScreen extends React.Component{
           //    this.props.fetchUserDetails(this.props.token);
               this.props.sendNotificationToken(this.props.token);
               this.setState({ loading: false});
-              this.props.navigation.navigate('Home');
+              this.props.navigation.navigate('MyAppointments');
             } else {
               this.setState({ loading: false});
               Alert.alert('Email y/o contraseña incorrecto/s');
@@ -119,7 +119,6 @@ class LoginScreen extends React.Component{
                       onChangeText = {password => this.setState({ password })}
                       value={this.state.password}
                       />
-
                       <TouchableOpacity style={styles.btnEye} onPress={this.showPass.bind(this)}>
                         <Ionicons
                           name = {this.state.press == false? "ios-eye" : "ios-eye-off"}
@@ -154,11 +153,11 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'center',
-    marginBottom: 50
+    marginBottom: 30
   },
   logo: {
-    width: 120,
-    height: 120,
+    width: 180,
+    height: 180,
     alignSelf: "center",
     marginTop: 30
   },
@@ -188,7 +187,7 @@ const styles = StyleSheet.create({
   },
   btnEye: {
     position: 'absolute',
-    top: 8,
+    top: 10,
     right: 37,
     zIndex: 2
   },
@@ -198,7 +197,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: '#0d98ba',
     justifyContent: 'center',
-    marginTop: 20
+    marginTop: 20,
+    marginLeft: 27
   },
   text: {
     color: '#FFFFFF',

@@ -19,15 +19,15 @@ export const fetchChatsRequest = () => ({
   type: FETCH_CHATS_REQUEST
 });
 
-export const fetchChatsSuccess = chats => ({
+export const fetchChatsSuccess = response => ({
   type: FETCH_CHATS_SUCCESS,
-  payload: { chats }
+  payload: { response }
 });
 
 export const fetchAllChats = (token) => dispatch => {
   dispatch(fetchChatsRequest());
   return ChatService.fetchAllChats(token).then((response) => {
-      dispatch(fetchChatsSuccess(response.conversations))
+      dispatch(fetchChatsSuccess(response))
       return response;
     }
   )

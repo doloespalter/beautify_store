@@ -31,8 +31,10 @@ class ChatScreen extends React.Component {
     this.props.navigation.navigate('Chat', {chatterId: id});
   }
 
+
   render() {
-    const { loading, chats } = this.props;
+    const { loading, chats, myId } = this.props;
+    const filteredChats = chats.filter(c => c.messages.length > 0);
     return (
       <View style={styles.container}>
       <NavigationEvents onDidFocus={() => this.updateData()} />
@@ -44,18 +46,31 @@ class ChatScreen extends React.Component {
         loading ?
           <LoadingIndicator />
         : (
-          <FlatList
-             data={chats.map(c => ({ id: c.sender.id, name: c.sender.name, date: c.messages[0].createdAt}))}
-             keyExtractor={(item, index) => (item.id).toString()}
-             renderItem={({ item }) =>
-             <TouchableHighlight onPress={() => this.goToChatScreen(item.id)}>
-               <ChatRow
-                  name={item.name}
-                  date={item.date}
-                />
-              </TouchableHighlight>
-            }
-          />
+          <View>
+            <View style={styles.headingContainer}>
+              <Text style={styles.heading}>
+                Mensajes
+              </Text>
+            </View>
+            <FlatList
+               data={filteredChats}
+               keyExtractor={(item, index) => (item.id).toString()}
+               renderItem={({ item }) => {
+                 const imSender = (myId === item.senderId);
+                 const chatterName = imSender ? item.receiver.name : item.sender.name;
+                 const chatterId = imSender ? item.receiver.id : item.sender.id;
+                 return (
+                   <TouchableHighlight onPress={() => this.goToChatScreen(chatterId)}>
+                     <ChatRow
+                        name={chatterName}
+                        date={item.messages[0].createdAt}
+                      />
+                    </TouchableHighlight>
+                 )
+               }
+              }
+            />
+          </View>
         )
       }
       </View>
@@ -70,13 +85,22 @@ const styles = StyleSheet.create({
     flex: 1
   },
   mainView: {
+    flex: 1,
     marginTop: 80,
-  }
+  },
+  heading: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    marginTop: 15,
+    marginBottom: 5
+  },
 });
 
 
 const mapStateToProps = state => ({
     chats: state.chat.chats,
+    myId: state.chat.myId,
     loading: state.chat.loading,
     token: state.auth.token,
 });

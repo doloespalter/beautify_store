@@ -10,6 +10,7 @@ const initialState = {
   messages: [],
   chats: [],
   conversation: {},
+  myId: '',
   receiver: {},
   loading: false,
 };
@@ -43,7 +44,8 @@ export default function availableTimingsReducer(state = initialState, action) {
         return {
           ...state,
           loading: false,
-          chats: action.payload.chats,
+          chats: action.payload.response.conversations,
+          myId: action.payload.response.myId
         };
 
     default:

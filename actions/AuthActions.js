@@ -98,8 +98,6 @@ export const saveUserToken = (data) => dispatch => {
         })
 }
 
-
-
 export const removeUserToken = () => dispatch =>
     AsyncStorage.removeItem('userToken')
         .then((data) => {
