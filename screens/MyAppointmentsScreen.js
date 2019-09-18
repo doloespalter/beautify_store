@@ -13,15 +13,13 @@ import LoadingIndicator from '../components/LoadingIndicator';
 import { Ionicons } from '@expo/vector-icons';
 import EventCalendar from 'react-native-events-calendar'
 import moment from 'moment'
+import 'moment/locale/es';
 import CalendarStrip from 'react-native-calendar-strip';
-
-
-
 
 const HEIGHT = Dimensions.get('window').height
 
 const locale = {
-  name: 'fr',
+  name: 'es',
   config: {
     months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Setiembre_Octubre_Noviembre_Diciembre'.split(
       '_'
@@ -49,19 +47,19 @@ const locale = {
       sameElse: 'L'
     },
     relativeTime: {
-      future: 'dans %s',
-      past: 'il y a %s',
-      s: 'quelques secondes',
-      m: 'une minute',
-      mm: '%d minutes',
-      h: 'une heure',
-      hh: '%d heures',
-      d: 'un jour',
-      dd: '%d jours',
-      M: 'un mois',
-      MM: '%d mois',
-      y: 'une année',
-      yy: '%d années'
+      future: 'dentro de %s',
+      past: 'Hace %s',
+      s: 'segs',
+      m: 'min',
+      mm: '%d min',
+      h: 'una hora',
+      hh: '%d horas',
+      d: 'un día',
+      dd: '%d días',
+      M: 'un mes',
+      MM: '%d meses',
+      y: 'un año',
+      yy: '%d años'
     },
     ordinalParse: /\d{1,2}(er|ème)/,
     ordinal: function(number) {
@@ -108,14 +106,6 @@ class MyAppointmentsScreen extends React.Component {
     })
   }
 
-  eventTapped = (data) => {
-    console.log(data);
-  };
-
-  dateChanged= () => {
-    console.log("date change");
-  };
-
   onDateSelected = (value) => {
     var formattedDate = value.format("YYYY-MM-DD");
     const { fetchMyAppointments , token, storeId } = this.props;
@@ -133,12 +123,12 @@ class MyAppointmentsScreen extends React.Component {
         <View style={styles.topContainer}>
           <View style={styles.dateRectangle}>
             <CalendarStrip
+              locale={locale}
               style={{height:100, paddingTop: 20}}
               daySelectionAnimation={{type: 'background',highlightColor:'#d3d3d3', duration: 200, borderWidth: 1, backgroundHighlightColor: 'red'}}
               onDateSelected={(date) => this.onDateSelected(date)}
               startingDate={moment()}
               //calendarHeaderFormat={"ddd, hA"}
-              locale={locale}
             />
           </View>
         </View>

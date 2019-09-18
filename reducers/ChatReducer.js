@@ -26,6 +26,8 @@ export default function availableTimingsReducer(state = initialState, action) {
     };
 
     case FETCH_MESSAGES_SUCCESS:
+
+    console.log("case");
       return {
         ...state,
         loading: false,
@@ -33,7 +35,7 @@ export default function availableTimingsReducer(state = initialState, action) {
         conversation: action.payload.messages.conversation,
         receiver: action.payload.messages.receiver,
       };
-      case FETCH_CHATS_REQUEST:
+    case FETCH_CHATS_REQUEST:
       return {
         ...state,
         loading: true,

@@ -19,7 +19,6 @@ class StoreRow extends React.Component {
               <Text style={styles.service}>{data.service.name}</Text>
               <Text style={styles.employee}>Con {data.employee.name}</Text>
             </View>
-
         </View>
     );
   }
@@ -35,6 +34,7 @@ const styles = StyleSheet.create({
        backgroundColor: 'white',
        borderBottomColor: '#cdcdcd',
        borderBottomWidth: 1,
+       borderRadius: 10
     },
     info:{
       display:'flex',
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
       fontSize: 15
     },
     client:{
-      fontFamily: 'open-sans',
+      fontFamily: 'open-sans-bold',
       fontSize: 15,
       marginTop: 5
     },

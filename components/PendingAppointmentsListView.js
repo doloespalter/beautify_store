@@ -147,6 +147,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     marginTop: 250,
+  },
+  user:{
+    fontSize: 13,
+    color: "#707070",
+    fontFamily: 'open-sans-bold',
   }
 });
 
@@ -237,6 +242,13 @@ class AppointmentListview extends React.Component {
                           </Text>
                         </View>
                       </View>
+                      <View style={{ ...styles.extraInfo, marginBottom:0, paddingBottom:0}}>
+                        <View style={styles.textContainer}>
+                          <Text style={styles.user}>
+                            {item.client.name} -   {item.client.email}
+                          </Text>
+                        </View>
+                      </View>
                       <View style={styles.extraInfo}>
                         <View style={styles.textContainer}>
                           <Image
@@ -247,29 +259,6 @@ class AppointmentListview extends React.Component {
                           </Text>
                         </View>
                       </View>
-                      {item.isConfirmed === 0 ? (
-                        <View style={styles.extraInfo}>
-                          <View style={styles.textContainer}>
-                            <Image
-                            source = {avatar}
-                            style = {styles.icon}/>
-                            <Text style={styles.secondaryText}>
-                             SIN CONFIRMAR
-                            </Text>
-                          </View>
-                        </View>
-                      ) : (
-                        <View style={styles.extraInfo}>
-                          <View style={styles.textContainer}>
-                            <Image
-                            source = {avatar}
-                            style = {styles.icon}/>
-                            <Text style={styles.secondaryText}>
-                            CONFIRMADO
-                            </Text>
-                          </View>
-                        </View>
-                      )}
                     </TouchableOpacity>
                     <View style={styles.confirmationButtons}>
                       <TouchableOpacity

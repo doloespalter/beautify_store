@@ -13,13 +13,38 @@ import { fetchAllChats } from '../actions/ChatActions';
 import { connect } from 'react-redux';
 import LoadingIndicator from '../components/LoadingIndicator';
 import { NavigationEvents } from 'react-navigation';
+import socketIO from 'socket.io-client';
 
 
 
 class ChatScreen extends React.Component {
 
+  state={
+    isLoading: false
+  }
+
   componentWillMount() {
-    this.updateData();
+    this.setState({isLoading: true});
+    const { fetchAllChats, token } = this.props;
+    fetchAllChats(token).then(() => this.setState({isLoading: false}));
+  }
+
+  componentDidMount() { 
+    const socket = socketIO('http://afternoon-beyond-65086.herokuapp.com', {      
+    transports: ['websocket'], jsonp: false });   
+    socket.connect(); 
+    socket.on('connect', () => { 
+      console.log('connected to socket server'); 
+    }); 
+
+    socket.on('refresh', () => { 
+      console.log('connected to socket server'); 
+    }); 
+
+    //socket.on('newMessage', () => {
+     // console.log("REFRESH MESSAGES!");
+      //this.updateData();
+ //   })
   }
 
   updateData = () => {
@@ -33,8 +58,9 @@ class ChatScreen extends React.Component {
 
 
   render() {
-    const { loading, chats, myId } = this.props;
-    const filteredChats = chats.filter(c => c.messages.length > 0);
+    const { chats, myId } = this.props;
+    const { isLoading } = this.state;
+    const filteredChats = chats.filter(c => c.messages.length > 0).sort((a, b) => a.messages[0].createdAt < b.messages[0].createdAt);
     return (
       <View style={styles.container}>
       <NavigationEvents onDidFocus={() => this.updateData()} />
@@ -43,7 +69,7 @@ class ChatScreen extends React.Component {
       />
       <View style={styles.mainView}>
       {
-        loading ?
+        isLoading ?
           <LoadingIndicator />
         : (
           <View>
@@ -64,6 +90,7 @@ class ChatScreen extends React.Component {
                      <ChatRow
                         name={chatterName}
                         date={item.messages[0].createdAt}
+                        lastMessage={item.messages[0].text}
                       />
                     </TouchableHighlight>
                  )
@@ -93,7 +120,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 10,
     marginTop: 15,
-    marginBottom: 5
+    marginBottom: 5,
+    color: '#131313',
+    fontFamily: 'open-sans-bold'
   },
 });
 

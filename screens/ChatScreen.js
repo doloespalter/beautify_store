@@ -10,6 +10,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import socketIO from 'socket.io-client';
 
 class ChatScreen extends React.Component {
   state = {
@@ -20,6 +21,24 @@ class ChatScreen extends React.Component {
 
   componentWillMount() {
     this.updateData();
+  }
+
+  componentDidMount() { 
+    const socket = socketIO('http://afternoon-beyond-65086.herokuapp.com', {      
+    transports: ['websocket'], jsonp: false });   
+    socket.connect(); 
+    socket.on('connect', () => { 
+      console.log('connected to socket server'); 
+    }); 
+
+    socket.on('refresh', () => { 
+      console.log('connected to socket server'); 
+    }); 
+
+    socket.on('newMessage', () => {
+      console.log("REFRESH MESSAGES!");
+      this.updateDataReceived();
+    })
   }
 
   updateData = () => {
@@ -35,6 +54,13 @@ class ChatScreen extends React.Component {
     fetchMessages(chatterId, token).then(e => this.setState({ loading : false}));
   }
 
+  updateDataReceived = () => {
+    const chatterId  = this.props.navigation.state.params.chatterId;
+    const { token, fetchMessages } = this.props;
+
+    fetchMessages(chatterId, token);
+  }
+
   onSend(messages = []) {
     const { chatterId } = this.state;
     const { token, sendMessage, fetchMessages } = this.props;
@@ -45,13 +71,16 @@ class ChatScreen extends React.Component {
     }
 
     sendMessage( body, token).then((response) => {
-       fetchMessages(chatterId, token);
+       //fetchMessages(chatterId, token);
     })
   }
 
   render() {
-    const { messages, conversation, myId }  = this.props;
+    const { messages, myId }  = this.props;
     const { loading } = this.state;
+    const msg = [...messages];
+    console.log("re render");
+    console.log(msg);
     return (
       <View style={styles.container}>
       <NavigationEvents onDidFocus={() => this.updateData()} />
@@ -63,7 +92,7 @@ class ChatScreen extends React.Component {
         <LoadingIndicator/>
       ) : (
         <GiftedChat
-          messages={messages.reverse().map(m => ({ _id: m.id, text: m.text, createdAt: m.createdAt, user: { _id: m.userId} }))}
+          messages={msg.reverse().map(m => ({ _id: m.id, text: m.text, createdAt: m.createdAt, user: { _id: m.userId} }))}
           onSend={messages => this.onSend(messages)}
           user={{
             _id: myId

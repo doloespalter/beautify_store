@@ -3,12 +3,17 @@ import {
   StyleSheet,
   Text,
   View,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Ionicons } from '@expo/vector-icons';
 import headerLogo from "../assets/images/header-logo.png";
+
+
+
+const WIDTH = Dimensions.get('window').width
 
 const MenuBackButton = ({navigation, url, title, params}) => {
       return(
@@ -49,10 +54,10 @@ const styles = StyleSheet.create({
   },
   logo: {
     position: "absolute",
-    top: 43,
-    left: 140,
-    width: 100,
-    height: 30,
+    top: 45,
+    left: WIDTH/2 - 48,
+    width: 96,
+    height: 28,
   },
   menuIcon: {
     position: "absolute",

@@ -28,7 +28,7 @@ class LoggedInDrawer extends React.Component {
         <View style={styles.listStyle}>
           <Ionicons
             name = {iconName}
-            size = {30}/>
+            size = {26}/>
           <Text style={styles.link}>{text}</Text>
         </View>
       </TouchableOpacity>
@@ -51,7 +51,7 @@ class LoggedInDrawer extends React.Component {
                </ScrollView>
                <View style={styles.logout}>
                  <TouchableOpacity onPress={this._signOutAsync} >
-                    <Text style={styles.link}>  Cerrar sesion </Text>
+                    <Text style={{ ...styles.link, textDecorationLine:'underline'}}>  Cerrar sesion </Text>
                   </TouchableOpacity>
                </View>
             </View>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     color: 'black',
     textAlign: 'left',
-    fontWeight: 'bold'
+    fontFamily: 'open-sans-bold'
   },
   img:{
     height: 130,
@@ -103,10 +103,11 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   link: {
-    fontSize: 18,
+    fontSize: 16,
     padding: 6,
     margin: 5,
     textAlign: 'left',
+    fontFamily: 'open-sans'
   },
   logout:{
     backgroundColor: 'white',

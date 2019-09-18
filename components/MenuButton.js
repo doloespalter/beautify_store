@@ -3,11 +3,15 @@ import {
   StyleSheet,
   Text,
   View,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import headerLogo from "../assets/images/header-logo.png";
+
+
+const WIDTH = Dimensions.get('window').width
 
 export default class MenuButton extends React.Component {
     render() {
@@ -40,10 +44,10 @@ const styles = StyleSheet.create({
   },
   logo: {
     position: "absolute",
-    top: 43,
-    left: 140,
-    width: 100,
-    height: 30,
+    top: 45,
+    left: WIDTH/2 - 48,
+    width: 96,
+    height: 28,
   },
   menuIcon: {
     position: "absolute",

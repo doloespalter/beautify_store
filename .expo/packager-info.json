@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 37844,
-  "expoServerNgrokUrl": "https://t8-5eg.doloespalter.beautify-store.exp.direct",
-  "packagerNgrokUrl": "https://packager.t8-5eg.doloespalter.beautify-store.exp.direct",
-  "ngrokPid": 37869,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null
 }
